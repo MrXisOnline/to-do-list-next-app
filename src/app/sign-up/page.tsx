@@ -1,14 +1,28 @@
 "use client";
-import React from 'react'
+import axios from 'axios';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 
 function Signup() {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [conPassword, setConPassword] = React.useState('');
+  const [showPass, setShowPass] = React.useState(false);
+  const router = useRouter();
 
-  function sendData(e: React.FormEvent<HTMLFormElement>) {
+  async function sendData(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    try {
+      const res = await axios.post('/api/users/signup', {name, email, password});
+      console.log(res);
+      if (!res.data.done) {
+        throw res.data.message;
+      }
+      router.push('/login');
+    } catch (error: any) {
+      console.log("error occurred: " + error);
+    }
   }
   return (
     <div className='flex flex-col justify-center text-center'>
@@ -22,9 +36,15 @@ function Signup() {
           Email: 
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className='border-2 border-black rounded-md mx-3'/>
         </label>
-        <label className='my-4'>
+        <label className='my-4 flex items-center justify-center'>
           Password: 
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='border-2 border-black rounded-md mx-3'/>
+          <div className='flex justify-center ml-3'>
+            <div className='flex justify-center flex-col'>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='border-2 border-black rounded-md mx-3'/>
+              {showPass ? <p>{password}</p> : ''}
+            </div>
+            <button type='button' onClick={() => setShowPass((v) => !v)}>Show</button>
+          </div>
         </label>
         <label className='my-4'>
           Confirm Password: 
