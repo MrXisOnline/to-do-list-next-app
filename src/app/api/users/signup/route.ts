@@ -1,8 +1,6 @@
-import { connect } from "@/dbConfig/dbConfig"
+import { client } from "@/dbConfig/dbConfig"
 import { NextRequest, NextResponse } from "next/server"
 import bcryptjs from "bcryptjs"
-
-const client  = await connect();
 
 export async function POST(request: NextRequest) {
     try {

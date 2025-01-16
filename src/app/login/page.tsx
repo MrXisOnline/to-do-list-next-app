@@ -27,7 +27,7 @@ function Login() {
   }
   return (
     <div className='flex flex-col justify-center text-center'>
-      <h1 className='text-3xl font-bold py-2'>Sign Up Form</h1>
+      <h1 className='text-3xl font-bold py-2'>Login</h1>
       <form className='flex flex-col justify-center text-center py-4' onSubmit={sendData}>
         <label className='my-4'>
           Email: 
